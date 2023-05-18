@@ -1,7 +1,7 @@
 from datos import obtener_lista_definiciones
 import random
 
-definiciones=obtener_lista_definiciones()
+
 
 PALABRA=0
 DEFINICION=1
@@ -14,7 +14,7 @@ def armar_dicc(lista):
  #Retorna un diccionario en el que las claves son las palabras y el valor es su definicion
  #Condicion extra, las palabras deben tener un minimo de 5 letras para ser ingresadas en el diccionario
     dicc_definiciones={}
-    for palabra in definiciones:
+    for palabra in lista:
         if len(palabra[PALABRA]) >= LONG_MINIMA_PALABRA:
             dicc_definiciones[palabra[PALABRA]]=palabra[DEFINICION]
     return dicc_definiciones
@@ -46,9 +46,10 @@ def desordenar ():
 
 
 def main():
+    definiciones=obtener_lista_definiciones()
     dicc_definiciones=armar_dicc(definiciones)
-    palabras=lista_palabras(dicc_definiciones)
-    abc=armar_dicc_letras(palabras)
+    palabras_dicc=lista_palabras(dicc_definiciones)
+    dicc_por_letras=armar_dicc_letras(palabras_dicc)
     letras_elegidas=desordenar()
     return letras_elegidas
 print(main())
