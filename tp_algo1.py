@@ -36,13 +36,13 @@ def armar_dicc_letras(lista_palabras):
             dicc_letras[palabra[INICIAL]]=[palabra]
     return dicc_letras
 
-def desordenar ():
+def seleccionar_letras ():
 #Recibe una lista con letras y selecciona 10 al azar, luego las ordena por orden alfabetico
     letras=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','ñ','o','p','q','r','s','t','u','v','w','x','y','z']
     random.shuffle(letras)
-    cortada=letras[0:10]
-    cortada.sort()
-    return cortada
+    slice=letras[0:10]
+    slice.sort()
+    return slice
 
 def seleccionar_palabras(letras, diccionario ):
 #Recibe una lista de letras y un diccionario (claves=letras, valores=palabras que comienzan con esa letra)
@@ -61,7 +61,7 @@ def main():
     dicc_definiciones=armar_dicc(definiciones)
     palabras_dicc=lista_palabras(dicc_definiciones)
     dicc_por_letras=armar_dicc_letras(palabras_dicc)
-    letras_elegidas=desordenar()
+    letras_elegidas=seleccionar_letras()
     palabras_seleccionadas= seleccionar_palabras(letras_elegidas,dicc_por_letras)
     return palabras_seleccionadas
 print(main())
