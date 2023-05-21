@@ -3,11 +3,13 @@ import random
 
 
 
+
 PALABRA=0
 DEFINICION=1
 LONG_MINIMA_PALABRA=5
 INICIAL=0
-
+aciertos=0
+errores=0
 
 def armar_dicc(lista):
  #Recibe una lista con sublistas formadas por una palabra y su definicion
@@ -56,12 +58,103 @@ def seleccionar_palabras(letras, diccionario ):
     return palabras_seleccionadas
 
 
+
+indice_tablero_dos=0
+espacio=""
+
+
+def roscooo(cadena,palabras_seleccionadas,dicc_definiciones):
+    aciertos=0
+    errores=0
+    indice_tablero_dos=0
+    respuestas =[]
+    cadena_dos=""
+    tablero_dos=["  ","   ","   ","  ","  ","  ","  ","  ","  ","  "]
+    for palabra in palabras_seleccionadas:
+        print(cadena)
+        for x in tablero_dos:
+            cadena_dos += "[" + x + "]"
+        print(cadena_dos)
+        cadena_dos=""
+        print("Aciertos :",aciertos)
+        print("Errores :",errores)
+        print("Turno letra ",palabra[0].upper(), "- Palabra de",len(palabra) ,"letras" )
+        print("Definicion :",dicc_definiciones[palabra])        
+        teclado=input("Ingrese palabra: ")
+        print(espacio)
+        if teclado == palabra:
+            aciertos+=1       
+            tablero_dos[indice_tablero_dos]= "a"
+        else:
+            errores+=1
+            tablero_dos[indice_tablero_dos]= "e"
+        
+        indice_tablero_dos+=1
+    
+        respuestas.append(teclado)
+    return aciertos,errores,respuestas
+        
+        
+        
+def rosco_inicial(letras_elegidas):
+    cadena=""
+    for letra in letras_elegidas:
+        cadena+= "[" + letra.upper() + "]"
+    return cadena
+
+puntos=0 
+VALOR_ACIERTOS=10
+VALOR_ERRORES=-3
+def resumen(palabras_seleccionadas,respuestas,puntos,aciertos,errores):
+    puntos = (aciertos*VALOR_ACIERTOS)+(errores*VALOR_ERRORES)
+    i=0
+    for respuesta in respuestas:
+        if respuesta == palabras_seleccionadas[i]:
+            print("Turno letra ",palabras_seleccionadas[i][INICIAL].upper(), "- Palabra de",len(palabras_seleccionadas[i]) ,"letras","-",respuesta,"- acierto")
+    
+        else:
+            print("Turno letra ",palabras_seleccionadas[i][INICIAL].upper(), "- Palabra de",len(palabras_seleccionadas[i]) ,"letras -",respuesta,"- error - Palabra correcta: ",palabras_seleccionadas[i])
+    
+        i+=1
+    
+    
+    print("Puntaje final: ",puntos)
+    
+    return puntos
+
+    
+
+def juego(dicc_por_letras,dicc_definiciones):
+    letras_elegidas=seleccionar_letras()
+    palabras_seleccionadas= seleccionar_palabras(letras_elegidas,dicc_por_letras)
+    letras=rosco_inicial(letras_elegidas)
+    rosco=roscooo(letras,palabras_seleccionadas,dicc_definiciones)
+    puntos_total= resumen(palabras_seleccionadas,rosco[2],puntos,rosco[0],rosco[1])
+    volver_a_jugar(dicc_por_letras,dicc_definiciones)     
+    
+
+def volver_a_jugar(dicc_por_letras,dicc_definiciones):
+    reiniciar= input("Desea jugar otra partida (si/no): ")
+    while reiniciar != "si" and reiniciar != "no" :
+        reiniciar = input("Respuesta invalida, desea jugar otra partida (si/no): ")   
+        
+    if reiniciar == "si":
+        juego(dicc_por_letras,dicc_definiciones)
+        
+    else:
+        print("Juego finalizado")
+    
+
 def main():
     definiciones=obtener_lista_definiciones()
     dicc_definiciones=armar_dicc(definiciones)
     palabras_dicc=lista_palabras(dicc_definiciones)
     dicc_por_letras=armar_dicc_letras(palabras_dicc)
-    letras_elegidas=seleccionar_letras()
-    palabras_seleccionadas= seleccionar_palabras(letras_elegidas,dicc_por_letras)
-    return palabras_seleccionadas
-print(main())
+    juego(dicc_por_letras,dicc_definiciones)
+    
+main()    
+
+
+
+
+
